@@ -1,98 +1,96 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function HomeScreen() {
+  const handleOpenGithub = (): void => {
+    Linking.openURL('https://github.com/Piemoroni');
+  };
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <View style={styles.container}>
+      <Text style={styles.nome}>PIETRA MORONI</Text>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+      <Image
+        source={require('./assets/eu.png')}
+        style={styles.imagem}
+      />
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+      <View style={styles.infoContainer}>
+        <Text style={styles.topico}>Escolaridade / Experiência:</Text>
+        <Text style={styles.item}>• 3º Ano do Ensino Médio</Text>
+        <Text style={styles.item}>• Último semestre do curso de DES no SENAI</Text>
+        <Text style={styles.item}>• Jovem Aprendiz na empresa Fernandez Papel e Indústria</Text>
+      </View>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      <TouchableOpacity 
+        style={styles.botaoGithub} 
+        onPress={handleOpenGithub}
+      >
+        <Text style={styles.textoBotao}>Acessar Meu GitHub</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
+    backgroundColor: '#fbe4ee',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+    padding: 24,
   },
-  title: {
+  nome: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#800033',
+    marginBottom: 20,
     textAlign: 'center',
   },
-  code: {
-    textTransform: 'uppercase',
+  imagem: {
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    borderColor: '#c2185b',
+    borderWidth: 4,
+    marginBottom: 24,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  infoContainer: {
+    width: '100%',
+    maxWidth: 500, 
+    alignSelf: 'center',
+    backgroundColor: '#f8bbd0',
+    borderRadius: 12,
+    padding: 20,
+    marginBottom: 24,
+    borderColor: '#f48fb1',
+    borderWidth: 1,
+  },
+  topico: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#800033',
+  },
+  item: {
+    fontSize: 15,
+    marginBottom: 6,
+    color: '#4a001e',
+  },
+  botaoGithub: {
+    backgroundColor: '#c2185b',
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    borderRadius: 25,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+  textoBotao: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
